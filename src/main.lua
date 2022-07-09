@@ -425,7 +425,7 @@ function axios.post(url, headers, data, cb)
                 ["Accept"] = 'application/json',
                 headers
             },
-            postData = inJson,
+            postData = resJson,
         }
         return fetchRemote(url, sendOptions, function (data, err) 
             if statuscode[err.statusCode] then 
