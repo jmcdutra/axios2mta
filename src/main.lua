@@ -413,18 +413,24 @@ function axios.get(url, head, callback)
     end)
 end
 
-function axios.post(url, headers, data, cb)
+function http.post(url, head, data, cb)
     return Promise.new(function (resolve, reject) 
         local resJson = toJSON(data)
         resJson = string.sub(resJson, 3, #resJson - 2)
 
+        local heads = {
+            ["Content-Type"] = "application/json",
+            ["Accept"] = 'application/json',
+            head
+        }
+
+        for k,v in pairs(head) do 
+            heads[""..k..""] = v
+        end
+       
         local sendOptions = {
             method = 'POST',
-            headers = {
-                ["Content-Type"] = "application/json",
-                ["Accept"] = 'application/json',
-                headers
-            },
+            headers = heads,
             postData = resJson,
         }
         return fetchRemote(url, sendOptions, function (data, err) 
